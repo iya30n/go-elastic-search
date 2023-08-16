@@ -1,15 +1,18 @@
 package news
 
 import (
+	"elastic-search/internal/models/news"
+	"elastic-search/pkg/database/mysql"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
-    "net/http"
 )
 
-func List(ctx *gin.Context) {
-	data := map[string]interface{}{
-		"result": "the list of the news",
-	}
+func List(c *gin.Context) {
+	news := &news.News{}
+	db := mysql.Connect()
+	db.Find(&news)
 
-	ctx.JSONP(http.StatusOK, data)
+	c.JSON(http.StatusOK, news)
 }
 

@@ -8,7 +8,7 @@ import (
 
 func main() {
     migrations := map[string]interface{}{
-        "news": news.NewsModel{},
+        "news": news.News{},
     }
 
     db := mysql.Connect()
