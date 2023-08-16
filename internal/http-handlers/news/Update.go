@@ -7,12 +7,13 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	newsValidation "elastic-search/internal/validations/news"
 )
 
 func Update(c *gin.Context) {
 	newsId := c.Param("id")
 
-	params := Params{}
+	params := newsValidation.UpdateValidation{}
 	if err := c.ShouldBind(&params); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"errors": fmt.Sprintf("%v", err)})
 		return

@@ -7,15 +7,11 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	newsValidation "elastic-search/internal/validations/news"
 )
 
-type Params struct {
-	Title   string `json:"title" binding:"required"`
-	Content string `json:"content" binding:"required"`
-}
-
 func Create(c *gin.Context) {
-	params := Params{}
+	params := newsValidation.CreateValidation{}
 	if err := c.ShouldBind(&params); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"errors": fmt.Sprintf("%v", err)})
 		return
