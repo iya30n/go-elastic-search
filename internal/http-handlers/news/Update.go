@@ -2,7 +2,6 @@ package news
 
 import (
 	"elastic-search/internal/models/news"
-	"elastic-search/pkg/database/mysql"
 	"fmt"
 	"net/http"
 
@@ -11,8 +10,6 @@ import (
 )
 
 func Update(c *gin.Context) {
-	newsId := c.Param("id")
-
 	params := newsValidation.UpdateValidation{}
 	if err := c.ShouldBind(&params); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"errors": fmt.Sprintf("%v", err)})
@@ -20,18 +17,20 @@ func Update(c *gin.Context) {
 	}
 
 	newsItem := news.News{}
-	db := mysql.Connect()
-	db.Find(&newsItem, "id", newsId)
-
-	if newsItem.ID == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"message": "news not found"})
+	if err := newsItem.Find(c.Param("id")); err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"message": err.Error()})
 		return
 	}
 
-	db.Model(&newsItem).Updates(news.News{
+	err := newsItem.Update(news.News{
 		Title:   params.Title,
 		Content: params.Content,
 	})
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "news updated", "news": newsItem})
 }
