@@ -1,12 +1,16 @@
-package http
+package server
 
 import (
+	"elastic-search/internal/http-handlers/news"
 	"log"
-	"net/http"
+	// "net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func Start() {
-    http.HandleFunc("/news", func(w http.ResponseWriter, r *http.Request) {})
-
-    log.Fatalln(http.ListenAndServe(":2000", nil))
+    router := gin.Default()
+    router.GET("/news", news.List)
+    router.POST("/news", news.Create)
+    log.Fatalln(router.Run(":2000"))
 }
