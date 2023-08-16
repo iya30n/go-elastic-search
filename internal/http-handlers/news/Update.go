@@ -22,8 +22,13 @@ func Update(c *gin.Context) {
 	db := mysql.Connect()
 	db.Find(&newsItem, "id", newsId)
 
+	if newsItem.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "news not found"})
+		return
+	}
+
 	db.Model(&newsItem).Updates(news.News{
-		Title: params.Title,
+		Title:   params.Title,
 		Content: params.Content,
 	})
 
