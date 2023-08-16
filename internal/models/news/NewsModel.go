@@ -2,9 +2,9 @@ package news
 
 import "gorm.io/gorm"
 
-type NewsModel struct {
+type News struct {
     gorm.Model
-    Title string
-    Content string
+    Title string `json:"title"`
+    Content string `json:"content"`
 }
 

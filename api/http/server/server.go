@@ -3,7 +3,6 @@ package server
 import (
 	"elastic-search/internal/http-handlers/news"
 	"log"
-	// "net/http"
 
 	"github.com/gin-gonic/gin"
 )

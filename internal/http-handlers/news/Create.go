@@ -23,12 +23,12 @@ func Create(c *gin.Context) {
 
 	db := mysql.Connect()
 
-	news := &news.NewsModel{
+	news := news.News{
 		Title:   params.Title,
 		Content: params.Content,
 	}
 
-	db.Create(news)
+	db.Create(&news)
 
 	c.JSON(http.StatusCreated, gin.H{"message": "news created.", "news": news})
 }
