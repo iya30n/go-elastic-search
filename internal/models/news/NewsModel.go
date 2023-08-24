@@ -1,6 +1,11 @@
 package news
 
-import "gorm.io/gorm"
+import (
+	"encoding/json"
+	"fmt"
+
+	"gorm.io/gorm"
+)
 
 type News struct {
     gorm.Model
@@ -8,3 +13,12 @@ type News struct {
     Content string `json:"content"`
 }
 
+func (n News) GetId() string {
+    return fmt.Sprintf("%d", n.ID)
+}
+
+func (n News) ToJson() string {
+    j, _ := json.Marshal(n)
+
+    return string(j)
+}
