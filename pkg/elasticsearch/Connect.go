@@ -19,12 +19,13 @@ func Connect() (*elasticsearch.Client, error) {
 				"http://localhost:9200",
 				"http://localhost:9300",
 			},
+			// NOTE: enable ssl on production
 			Transport: &http.Transport{
 				TLSClientConfig: &tls.Config{
 					InsecureSkipVerify: true,
 				},
 			},
-			// NOTE: we should env config for username, password
+			// NOTE: use env conf for username, password
 			Username: "iya30n",
 			Password: "11111111",
 		}
