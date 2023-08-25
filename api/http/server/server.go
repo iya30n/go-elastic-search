@@ -13,5 +13,6 @@ func Start() {
     router.POST("/news", news.Create)
     router.PATCH("/news/:id", news.Update)
     router.GET("/news/:id", news.Detail)
+    router.GET("/news/search", news.Search)
     log.Fatalln(router.Run(":2000"))
 }
