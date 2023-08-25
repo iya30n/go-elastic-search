@@ -1,11 +1,13 @@
 package news
 
-import "elastic-search/pkg/database/mysql"
+import (
+	"elastic-search/pkg/database/mysql"
+)
 
 func (News) All() ([]*News, error) {
-    news := []*News{}
-    db := mysql.Connect()
-    db.Find(&news)
+	news := []*News{}
+	db := mysql.Connect()
+	res := db.Find(&news)
 
-    return news, nil
+	return news, res.Error
 }

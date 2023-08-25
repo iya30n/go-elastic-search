@@ -6,12 +6,16 @@ import (
 )
 
 func (n *News) Find(id string) error {
-    db := mysql.Connect()
-    db.Find(&n, "id", id)
+	db := mysql.Connect()
+	res := db.Find(&n, "id", id)
 
-    if n.ID == 0 {
-        return errors.New("news not found")
-    }
+	if res.Error != nil {
+		return res.Error
+	}
 
-    return nil
+	if res.RowsAffected == 0 {
+		return errors.New("news not found")
+	}
+
+	return nil
 }
